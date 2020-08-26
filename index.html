@@ -10,26 +10,22 @@
 
 <body>
     <div id="app">
-        {{ msg }}
+        {{ deng }}
     </div>
     <script>
         var vm = new Vue({
             el: "#app",
             data: {
-                msg: "abcbcbcbbc",
                 deng: {
                     name: "name is deng",
-                    age: 18,
-                    address: "xian"
                 }
             }
 
         })
-        vm.msg = "plp";
-        console.log(vm.$el)
-        vm.$nextTick(function () {
-            console.log(vm.msg, vm.$el.innerText)
-        })
+        vm.deng.age = 22;
+        vm.deng.address = "sdfsaf"; //不会渲染
+        vm.$set(vm.deng,"number",123);   //使用set方法重新渲染
+
     </script>
 </body>
 
