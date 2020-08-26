@@ -9,24 +9,88 @@
 </head>
 
 <body>
-    <div id="app">
-        {{ deng }}
-    </div>
-    <script>
-        var vm = new Vue({
-            el: "#app",
-            data: {
-                deng: {
-                    name: "name is deng",
-                }
-            }
+   
 
-        })
-        vm.deng.age = 22;
-        vm.deng.address = "sdfsaf"; //不会渲染
-        vm.$set(vm.deng,"number",123);   //使用set方法重新渲染
 
-    </script>
+
+
+   <div id="app" v-pre>   
+       {{ msg }}    
+   </div>
+   <div id="app1" v-cloak>
+       {{ msg }}
+   </div>
+   <div id="app2" v-once>
+       {{ msg }}
+   </div>
+   <div id="app3" v-text = msg1>
+    {{ msg }}
+</div>
+<div id="app4" v-html= msg1>
+    {{ msg }}
+</div>
+ <!-- <img src="" onerror="while(1){alert('haha')}" /> -->
+ 关于v-html的小例子 如果用于接受的数据动态渲染到网站上，注意xss攻击（恶意js脚本）<br>
+ <input type="text">
+ <button>点击</button>
+ <div id="app5" v-html = msg ></div>
+   <script>
+       let vm = new Vue({
+           el:"#app",
+           data:{
+               msg:"v-pre跳过vue编译子元素一同跳过  意义 ：提高性能"
+           }
+       })
+       let vm1 = new Vue({
+           el:"#app1",
+           data:{
+               msg:"v-colak用于解决闪烁问题  当网速较慢时，如果vue控制部分未编译完成，会显示插值表达式，此属性会在编译完成后，自动消失"
+           }
+       })
+       let vm2 = new Vue({
+           el:"#app2",
+           data:{
+               msg:"v-once 只进行一次编译"
+           }
+       })
+       let vm3= new Vue({
+           el:"#app3",
+            data:{
+                msg:"v-text 改变该元素的textcontent ",
+                msg1:"改变的值"
+           }
+       })
+       let vm4 = new Vue({
+           el:"#app4",
+           data:{
+               msg:"v-html 更新元素的innerhtml 不进行vue编译",
+                msg1:"<span>添加进来的的Span标签 </span>"
+           }
+       })
+
+       let vm5 = new Vue({
+           el:"#app5",
+           data:{
+               msg:"hello world 初始值",
+           }
+       })
+       let inputa = document.getElementsByTagName("input")[0];
+       let btn  =  document.getElementsByTagName("button")[0];
+       
+       btn.onclick = function(){
+           console.log(inputa.value)
+           vm5.msg = inputa.value
+           
+       }
+
+
+
+
+
+
+
+
+   </script>
 </body>
 
 </html>
