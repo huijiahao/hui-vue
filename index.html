@@ -9,88 +9,43 @@
 </head>
 
 <body>
-   
+    <div id="app" >
+        <template v-if = 1>
+            <div >得瑟得瑟</div>
+            <div >得瑟得瑟</div>
+            <div >得瑟得瑟</div>
+            <div >得瑟得瑟</div>
+            <div v-show=0>得瑟得瑟show</div>
+            <div v-show=1>得瑟得瑟show</div>
+        </template>
+        <template v-if = 0>
+            <div >得瑟得瑟</div>
+            <div >得瑟得瑟</div>
+            <div >得瑟得瑟</div>
+            <div >得瑟得瑟</div>
+        </template>
+        <div v-show = 1>得瑟得瑟showfffdfdfdfdfdfdf</div>
+        <template v-show = 1>
+            <div >template对v-show不支持，v-show通过改变元素的css属性来设置显示，template元素本身就不显示无法被控制</div>
+            <div >template对v-show不支持，v-show通过改变元素的css属性来设置显示，template元素本身就不显示无法被控制</div>
+        </template>
+        <template v-show = 0>
+            <div >template对v-show不支持，v-show通过改变元素的css属性来设置显示，template元素本身就不显示无法被控制</div>
+            <div >template对v-show不支持，v-show通过改变元素的css属性来设置显示，template元素本身就不显示无法被控制</div>
+        </template>
+    </div>
+ 
+ <script>
+     let vm = new Vue({
+         el:"#app",
+         data:{
+             
+         }
+     })
+      //v-if   v-else-if v-else 连用才能生效
+      //v-show v-if 区别： 一个是否渲染节点 一个渲染节点后改变css是否显示
 
-
-
-
-   <div id="app" v-pre>   
-       {{ msg }}    
-   </div>
-   <div id="app1" v-cloak>
-       {{ msg }}
-   </div>
-   <div id="app2" v-once>
-       {{ msg }}
-   </div>
-   <div id="app3" v-text = msg1>
-    {{ msg }}
-</div>
-<div id="app4" v-html= msg1>
-    {{ msg }}
-</div>
- <!-- <img src="" onerror="while(1){alert('haha')}" /> -->
- 关于v-html的小例子 如果用于接受的数据动态渲染到网站上，注意xss攻击（恶意js脚本）<br>
- <input type="text">
- <button>点击</button>
- <div id="app5" v-html = msg ></div>
-   <script>
-       let vm = new Vue({
-           el:"#app",
-           data:{
-               msg:"v-pre跳过vue编译子元素一同跳过  意义 ：提高性能"
-           }
-       })
-       let vm1 = new Vue({
-           el:"#app1",
-           data:{
-               msg:"v-colak用于解决闪烁问题  当网速较慢时，如果vue控制部分未编译完成，会显示插值表达式，此属性会在编译完成后，自动消失"
-           }
-       })
-       let vm2 = new Vue({
-           el:"#app2",
-           data:{
-               msg:"v-once 只进行一次编译"
-           }
-       })
-       let vm3= new Vue({
-           el:"#app3",
-            data:{
-                msg:"v-text 改变该元素的textcontent ",
-                msg1:"改变的值"
-           }
-       })
-       let vm4 = new Vue({
-           el:"#app4",
-           data:{
-               msg:"v-html 更新元素的innerhtml 不进行vue编译",
-                msg1:"<span>添加进来的的Span标签 </span>"
-           }
-       })
-
-       let vm5 = new Vue({
-           el:"#app5",
-           data:{
-               msg:"hello world 初始值",
-           }
-       })
-       let inputa = document.getElementsByTagName("input")[0];
-       let btn  =  document.getElementsByTagName("button")[0];
-       
-       btn.onclick = function(){
-           console.log(inputa.value)
-           vm5.msg = inputa.value
-           
-       }
-
-
-
-
-
-
-
-
-   </script>
+ </script>
 </body>
 
 </html>
