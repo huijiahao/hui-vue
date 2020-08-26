@@ -1,22 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="./vue.js"></script>
+    <script src="/vue.js"></script>
 </head>
+
 <body>
     <div id="app">
         {{ msg }}
     </div>
     <script>
         var vm = new Vue({
-            el:"#app",
-            data:{
-                msg:"asdfsdf"
+            el: "#app",
+            data: {
+                msg: "abcbcbcbbc",
+                deng: {
+                    name: "name is deng",
+                    age: 18,
+                    address: "xian"
+                }
             }
+
+        })
+        vm.msg = "plp";
+        console.log(vm.$el)
+        vm.$nextTick(function () {
+            console.log(vm.msg, vm.$el.innerText)
         })
     </script>
 </body>
+
 </html>
