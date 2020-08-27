@@ -9,30 +9,29 @@
 </head>
 
 <body>
-    <div id="app1" v-bind:msg = type></div>
-    <div id='app' :class={[msg]:[msg]}>
-    </div>
-    <div id='app2' :class={[msg]:[msg]}>
-    </div>
+    <div id="app" >
+    <button v-on:click="getcount(123,$event)">点击+1</button><br>
+    <span>{{ count }}</span>
+   </div>
     <script>
     var vm = new Vue({
         el:"#app",
         data:{
-            msg:'使用class可以绑定对象和数组   一次添加多个信息  对象的键值对 key被添加 value判断是否要添加 判断依据为真假值'   
+            count : 0 
+        },
+        methods:{
+             getcount(num,e){
+                this.count++;
+                console.log(num);
+                console.log(e.target);
+                this.a()
+            },
+            a(){
+                console.log('aaa');
+            }
         }
     })
-    var vm1 = new Vue({
-        el:"#app1",
-        data:{
-           type:"我被指令绑定在属性上了" 
-        }
-    })
-    var vm2 = new Vue({
-        el:"#app2",
-        data:{
-           msg:"使用style 可以绑定对象和数组，一次添加多个样式" 
-        }
-    })
+ 
  
 </script>
 
