@@ -9,26 +9,29 @@
 </head>
 
 <body>
-    <div id="app" >
-    <button v-on:click="getcount(123,$event)">点击+1</button><br>
-    <span>{{ count }}</span>
+    <!-- 只学习了 stop self prevent once capture   剩余未学习 -->
+    <div id="app"  @click.capture="getdianji('div')" :style="msg">
+        <!-- <form :style=msg @submit.prevent="getdianji">
+        <input type="submit">点击</input>
+       </form> -->
+       <button @click="getdianji('btn')"> 点击 </button>
    </div>
+
+
     <script>
     var vm = new Vue({
         el:"#app",
         data:{
-            count : 0 
+            count : 0 ,
+            msg:{
+                'height':'100px',
+                'backgroundColor':'yellow'
+            }
         },
         methods:{
-             getcount(num,e){
-                this.count++;
-                console.log(num);
-                console.log(e.target);
-                this.a()
-            },
-            a(){
-                console.log('aaa');
-            }
+             getdianji(dom){
+                 alert(`点击了${dom}`);
+             }
         }
     })
  
