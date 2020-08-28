@@ -7,37 +7,54 @@
     <title>Document</title>
     <script src="/vue.js"></script>
 </head>
-
+<!-- //了解v-for 优先级比v-if 高， 如果同时使用，先添加后清除dom，比较损耗性能； -->
 <body>
-    <!-- 只学习了 stop self prevent once capture   剩余未学习 -->
-    <div id="app"  @click.capture="getdianji('div')" :style="msg">
-        <!-- <form :style=msg @submit.prevent="getdianji">
-        <input type="submit">点击</input>
-       </form> -->
-       <button @click="getdianji('btn')"> 点击 </button>
-   </div>
+    <div id="app">
+        <ul>
+            <template v-for='(item,index) in msg' >
+                <li :key="item.name">{{ item.name }} {{ item.ser }}
+                    <input type="text">
+                    <button @click="getcilck(index)">点击</button>
+                </li>
+            </template>
+        </ul>
+    </div>
+
+
+
 
 
     <script>
-    var vm = new Vue({
-        el:"#app",
-        data:{
-            count : 0 ,
-            msg:{
-                'height':'100px',
-                'backgroundColor':'yellow'
-            }
-        },
-        methods:{
-             getdianji(dom){
-                 alert(`点击了${dom}`);
-             }
-        }
-    })
- 
- 
-</script>
+        let vm = new Vue({
+            el: "#app",
+            data: {
+                msg: [{
+                    name: 'hui',
+                    age: 18,
+                    ser: 'man1'
+                }, {
+                    name: 'jia',
+                    age: 28,
+                    ser: 'man2'
+                }, {
+                    name: 'hao',
+                    age: 38,
+                    ser: 'man3'
+                }, {
+                    name: 'niu',
+                    age: 48,
+                    ser: 'man4'
+                }],
 
+            },
+            methods: {
+                getcilck(index) {
+                    let a = this.msg.splice(index, 1);
+                    this.msg.splice(index+1,0,...a);
+                }
+            }
+        })
+    </script>
 </body>
 
 
