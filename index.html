@@ -5,55 +5,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
     <script src="/vue.js"></script>
 </head>
-<!-- //了解v-for 优先级比v-if 高， 如果同时使用，先添加后清除dom，比较损耗性能； -->
+
 <body>
+
     <div id="app">
-        <ul>
-            <template v-for='(item,index) in msg' >
-                <li :key="item.name">{{ item.name }} {{ item.ser }}
-                    <input type="text">
-                    <button @click="getcilck(index)">点击</button>
+        <div v-for="(goods,goodindex) in goodsList" class="goods">
+            <div class="type">{{ goods.title }}</div>                                                       
+            <ul class="type-list">
+                <li class="type" :class="{active : typeindex === goods.index}"  @click="handclick(typeindex,type,goods,goodindex)" v-for="(type,typeindex) in goods.typeList">{{ type }}</li>
+            </ul>
+        </div>
+        <div class="choose-type">
+            <div>已选条件：</div>
+            <span v-if="!sum">暂时没有选择过滤条件</span>
+            <ul class="filter-list" v-else>
+                <li v-for="(type,arrindex) in arr">
+                    {{ type }}
+                    <span class="delete-goods" @click="cleararr(arrindex)">x</span>
                 </li>
-            </template>
-        </ul>
+            </ul>
+        </div>
     </div>
-
-
-
-
-
     <script>
-        let vm = new Vue({
+        var vm = new Vue({
             el: "#app",
             data: {
-                msg: [{
-                    name: 'hui',
-                    age: 18,
-                    ser: 'man1'
-                }, {
-                    name: 'jia',
-                    age: 28,
-                    ser: 'man2'
-                }, {
-                    name: 'hao',
-                    age: 38,
-                    ser: 'man3'
-                }, {
-                    name: 'niu',
-                    age: 48,
-                    ser: 'man4'
-                }],
+                arr:{
 
+                },
+                sum:false,
+                goodsList: [{
+                        title: '上装',
+                        typeList: ['全部', '针织衫', '毛呢外套', 'T恤', '羽绒服', '棉衣', '卫衣', '风衣'],
+                        id: 1,
+                    },
+                    {
+                        title: '裤装',
+                        typeList: ['全部', '牛仔裤', '小脚/铅笔裤', '休闲裤', '打底裤', '哈伦裤'],
+                        id: 2,
+                    },
+                    {
+                        title: '裙装',
+                        typeList: ['全部', '连衣裙', '半身裙', '长袖连衣裙', '中长款连衣裙'],
+                        id: 3,
+                    }
+                ]
             },
-            methods: {
-                getcilck(index) {
-                    let a = this.msg.splice(index, 1);
-                    this.msg.splice(index+1,0,...a);
+            methods:{
+                handclick(typeindex,type,goods,goodindex){
+                    if(type == "全部")return ;
+                    goods.index = typeindex;
+                    this.sum = true;
+                    this.arr[goodindex] = type ;
+                },
+                cleararr(arrindex){
+                    this.$delete(this.arr,arrindex);
+                    this.goodsList[arrindex].index = 0;
+                    this.changecub();
+                },
+                changecub(){
+                    let str = JSON.stringify(this.arr);
+                    this.sum = str !== '{}' ;
                 }
             }
         })
+        vm.goodsList.forEach(item => {
+           return vm.$set(item,'index',0);
+       });
+       
     </script>
 </body>
 
