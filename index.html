@@ -12,70 +12,98 @@
 <body>
 
     <div id="app">
-        <div v-for="(goods,goodindex) in goodsList" class="goods">
-            <div class="type">{{ goods.title }}</div>                                                       
-            <ul class="type-list">
-                <li class="type" :class="{active : typeindex === goods.index}"  @click="handclick(typeindex,type,goods,goodindex)" v-for="(type,typeindex) in goods.typeList">{{ type }}</li>
-            </ul>
+        <div class="header">
+            <div class="container">
+                <div class="logo">toDoList</div>
+                <div class="input-area">
+                    <input type="text" @input="handleinput" :value="this.inputvalue">
+                    <button @click="handlebtn">添加</button>
+                </div>
+            </div>
         </div>
-        <div class="choose-type">
-            <div>已选条件：</div>
-            <span v-if="!sum">暂时没有选择过滤条件</span>
-            <ul class="filter-list" v-else>
-                <li v-for="(type,arrindex) in arr">
-                    {{ type }}
-                    <span class="delete-goods" @click="cleararr(arrindex)">x</span>
+        <div class="container">
+            <h2>
+                <span>正在进行</span>
+                <span class="mask-num">{{ this.arr.length }}</span>
+            </h2>
+            <ul class="mask-list">
+                <li v-for="(item,index) in arr" :key="item.id">
+                    <div>
+                        <input type="checkbox" @change="jiequ(index,'doing')">
+                        <span>{{ item.name }}</span>
+                    </div>
+                    <button @click ="shanchu(index,'doing')">删除</button>
                 </li>
             </ul>
         </div>
+        <div class="container">
+            <h2>
+                <span>已经完成</span>
+                <span class="mask-num">{{ this.tianjiarr.length }}</span>
+            </h2>
+            <ul class="mask-list complete-list">
+                <li v-for="(item,conindex) in tianjiarr" :key="item.id">
+                    <div>
+                        <input type="checkbox" @change="jiequ(conindex,'completed')">
+                        <span>{{ item.name }}</span>
+                    </div>
+                    <button  @click ="shanchu(conindex,'complete')">删除</button>
+                </li>
+            </ul>
+        </div>
+
+
+
     </div>
+
+
+
+
+
+
+
+
     <script>
         var vm = new Vue({
             el: "#app",
             data: {
-                arr:{
-
-                },
-                sum:false,
-                goodsList: [{
-                        title: '上装',
-                        typeList: ['全部', '针织衫', '毛呢外套', 'T恤', '羽绒服', '棉衣', '卫衣', '风衣'],
-                        id: 1,
-                    },
-                    {
-                        title: '裤装',
-                        typeList: ['全部', '牛仔裤', '小脚/铅笔裤', '休闲裤', '打底裤', '哈伦裤'],
-                        id: 2,
-                    },
-                    {
-                        title: '裙装',
-                        typeList: ['全部', '连衣裙', '半身裙', '长袖连衣裙', '中长款连衣裙'],
-                        id: 3,
-                    }
-                ]
+                count: 0,
+                inputvalue: '',
+                arr: [],
+                tianjiarr: [],
+                tianjiabianliang: null,
             },
-            methods:{
-                handclick(typeindex,type,goods,goodindex){
-                    if(type == "全部")return ;
-                    goods.index = typeindex;
-                    this.sum = true;
-                    this.arr[goodindex] = type ;
+            methods: {
+                handleinput(e) {
+                    this.inputvalue = e.target.value;
                 },
-                cleararr(arrindex){
-                    this.$delete(this.arr,arrindex);
-                    this.goodsList[arrindex].index = 0;
-                    this.changecub();
+                handlebtn() {
+                    if(this.inputvalue == '')return ;
+                    this.arr.push({
+                        name: this.inputvalue,
+                        id: this.count++
+                    });
+                    this.inputvalue = '';
                 },
-                changecub(){
-                    let str = JSON.stringify(this.arr);
-                    this.sum = str !== '{}' ;
+                jiequ(index, str) {
+                    if (str == 'doing') {
+                        this.tianjiabianliang = this.arr.splice(index, 1);
+                        this.tianjiarr.push(...this.tianjiabianliang);
+                    } else if (str == 'completed') {
+                        this.tianjiabianliang = this.tianjiarr.splice(index,1);
+                        this.arr.push(...this.tianjiabianliang);
+                    }
+                },
+                shanchu(index,str){
+                    if(str == 'doing'){
+                       this.arr.splice(index,1); 
+                    }else if(str == 'complete'){
+                        this.tianjiarr.splice(index,1)
+                    }
+                    
                 }
             }
         })
-        vm.goodsList.forEach(item => {
-           return vm.$set(item,'index',0);
-       });
-       
     </script>
 </body>
 
