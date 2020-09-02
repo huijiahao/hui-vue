@@ -5,22 +5,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="./index.css" rel="stylesheet">
     <script src="/vue.js"></script>
 </head>
 
 <body>
-
     <div id="app">
-      <input type="text" v-model.number='number1'>
-        <select v-model="type">
-            <option value='+'>+</option>
-            <option value='-'>-</option>
-            <option value='*'>*</option>
-            <option value='/'>/</option>
-        </select>  
-        <input type="text" v-model.number='number2'>
-        <button @click="handclick">=</button>
-        <span>{{ result }}</span>      
+
+        <div v-for="item in 2" class="area">
+
+            <h2>{{ item === 1 ? '提问区' : '问题回答区' }}</h2>
+            <ul>
+                <li v-for="list in questionList" :key="list.id">
+                    <h3>{{ list.title }}</h3>
+                    <!-- 简答区域 -->
+                    <template v-if="list.type == 'short'">
+                        <div v-if="item === 1 "><input type="text" v-if="list.type === 'short'" v-model="list.answer"></div>
+                        <span v-if="item === 2 ">回答：{{ list.answer }}</span>
+                    </template>
+                    
+
+                    <!-- 单选区域 -->
+                    <template v-if="list.type == 'single'">
+                        <template v-if="item === 1">
+                            <div v-for="list1 in list.chooseList" :key="list1">
+                              
+                                  <input type="radio" :value="list1" v-model="list.answer">
+                                <span>{{ list1 }}</span>
+                            
+                            </div>
+                        </template>
+                        <span v-if="item === 2 ">回答：{{ list.answer }}</span>
+                    </template>
+                    <!-- 复选框 -->
+                    <template v-if=" list.type == 'multiple'">
+                        <template v-if="item === 1">
+                            <div v-for="list1 in list.chooseList" :key="list1">
+                                <input type="checkbox" :value="list1"  v-model="list.answer">
+                                <span>{{ list1 }}</span>
+                            </div>
+                        </template>
+                        <span v-if="item === 2 ">回答：{{ list.answer.toString() }} </span>
+                    </template>
+                    <!-- 文字区域 -->
+                    <template v-if=" list.type == 'long'">
+                        <template v-if="item === 1">
+                            <textarea v-model="list.answer"></textarea>
+                        </template>
+                        <span v-if="item === 2 ">回答：{{ list.answer }}</span>
+                    </template>
+
+                </li>
+            </ul>
+        </div>
+
+
+
     </div>
 
 
@@ -29,34 +69,57 @@
 
 
 
-
     <script>
-       var em = new Vue({
-           el:"#app",
-          data:{
-              number1:'0',
-              number2:'0',
-              type:"+",
-              result:0
-
-          },
-          methods:{
-            handclick(){
-                let num1 = this.number1;
-                let num2 = this.number2;
-                if(this.type == '+'){
-                    this.result = num1 + num2;
-                }else if(this.type == '-'){
-                    this.result = num1 - num2;
-                }else if(this.type == '*'){
-                    this.result = num1 * num2;
-                }else if(this.type == '/'){
-                    this.result = num1 / num2;
-                }
+        var em = new Vue({
+            el: "#app",
+            data: {
+                questionList: [{
+                        type: 'short',
+                        title: '1.请问你的姓名是？',
+                        chooseList: null,
+                        answer: '',
+                        id: 0
+                    },
+                    {
+                        type: 'single',
+                        title: '2.请问您的性别是？',
+                        chooseList: [
+                            '男',
+                            '女',
+                            '保密',
+                        ],
+                        answer: '',
+                        id: 1,
+                    },
+                    {
+                        type: 'multiple',
+                        title: '3. 请选择您的兴趣爱好：',
+                        chooseList: [
+                            '看书',
+                            '游泳',
+                            '跑步',
+                            '看电影',
+                            '听音乐',
+                        ],
+                        answer: '',
+                        id: 2,
+                    },
+                    {
+                        type: 'long',
+                        title: '4. 请介绍一下自己:',
+                        chooseList: null,
+                        answer: '',
+                        id: 3,
+                    },
+                ]
             }
-          }
-       })
-       
+
+        })
+        em.questionList.forEach(element => {
+            let result = null;
+            result = element.type === 'multiple' ? [] : '';
+            em.$set(element,'answer',result);
+        });
     </script>
 </body>
 
