@@ -11,26 +11,16 @@
 <body>
 
     <div id="app">
-        <select v-model="msg">
-            <option value='请选择' disabled>请选择</option>
-            <option value="fff">fff </option>
-            <option value="ddd">ddd </option>
-            <option value="eee">eee </option>
-        </select>
-        <input type="text" v-model="text1">
-        </input>
-         <!-- 修饰符：将内容转化为数字类型 -->
-        <input type="text" v-model.lazy="text11">
-        </input>
-
-        <input type="text" v-model.lazy="text2">
-        </input>
-          <!-- 修饰符：将内容转化为数字类型 -->
-        <input type="text" v-model.number="text21">
-        </input>
-        <!-- 修饰符：将文本框内容首尾空白字符去除 -->
-        <input type="text" v-model.trim="text3"></input> 
-        
+      <input type="text" v-model.number='number1'>
+        <select v-model="type">
+            <option value='+'>+</option>
+            <option value='-'>-</option>
+            <option value='*'>*</option>
+            <option value='/'>/</option>
+        </select>  
+        <input type="text" v-model.number='number2'>
+        <button @click="handclick">=</button>
+        <span>{{ result }}</span>      
     </div>
 
 
@@ -43,19 +33,29 @@
     <script>
        var em = new Vue({
            el:"#app",
-           data:{
-               msg:'请选择',
-               text1:"",
-               text11:"",
-               text2:"",
-               text21:'',
-               text3:""
-           }
-       })
+          data:{
+              number1:'0',
+              number2:'0',
+              type:"+",
+              result:0
 
-       setInterval(()=>{
-        console.log(em.text11);
-       },3000)
+          },
+          methods:{
+            handclick(){
+                let num1 = this.number1;
+                let num2 = this.number2;
+                if(this.type == '+'){
+                    this.result = num1 + num2;
+                }else if(this.type == '-'){
+                    this.result = num1 - num2;
+                }else if(this.type == '*'){
+                    this.result = num1 * num2;
+                }else if(this.type == '/'){
+                    this.result = num1 / num2;
+                }
+            }
+          }
+       })
        
     </script>
 </body>
