@@ -5,70 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="./index.css" rel="stylesheet">
     <script src="/vue.js"></script>
 </head>
 
 <body>
     <div id="app">
-        <div class="store">
-            <input type="checkbox" class="select-all" v-model="quanxuan">
-            <span class="store-name">渡一教育Web前端</span>
-        </div>
-
-        <ul class="course-list">
-            <li v-for="(item,index) in courseList" class="course" :key="item.id">
-                <input type="checkbox" class="course-radio" v-model="item.flag">
-                <img class="poster" :src="item.poster">
-                <div class="content">
-                    <div class="title">
-                        <!-- 此处放数据 -->
-                        {{ item.title }}
-                    </div>
-                    <div class="price-container">
-                        <div class="price">
-                            <!-- 此处放数据 -->
-                            ￥{{ item.price }}
-                        </div>
-                        <div class="control-cart">
-                            <button class="minus-cart" @click="jianxiancart(item)">-</button>
-                            <input type="text" class="cart-num" v-model="item.cart">
-                            <button class="add-cart" @click="zengjiacart(item)">+</button>
-                        </div>
-                    </div>
-
-                </div>
-
-
-            </li>
-        </ul>
-
-
-
-
-
-
-        <div class="control">
-            <div class="select">
-                <input type="checkbox" class="select-all" v-model="quanxuan">
-                <span>全选</span>
-            </div>
-            <div class="price-container">
-                <span>合计：</span>
-                <span class="price">￥{{ jisuanprice }}</span>
-                <button class="accounts">
-                    结算(0)
-                </button>
-            </div>
-        </div>
-
-
-
-
-
-
-
-
+        {{ msg }}
 
     </div>
 
@@ -80,89 +22,19 @@
         var em = new Vue({
             el: "#app",
             data: {
-                courseList: [{
-                        poster: 'https://img.alicdn.com/bao/uploaded/i1/TB1VtAgdlWD3KVjSZFs3KIqkpXa_040950.jpg_80x80.jpg',
-                        title: '渡一教育 CSS3 深度剖析',
-                        price: 1299,
-                        cart: 1,
-                        id: 0
-                    },
-                    {
-                        poster: 'https://img.alicdn.com/bao/uploaded/i7/TB1_VJecBWD3KVjSZKPagip7FXa_045814.jpg_80x80.jpg',
-                        title: '渡一教育 移动端开发课程',
-                        price: 1148,
-                        cart: 1,
-                        id: 1595402664708
-                    },
-                    {
-                        poster: 'https://img.alicdn.com/bao/uploaded/i2/TB1J.Q4cQxz61VjSZFto7uDSVXa_010347.jpg_80x80.jpg',
-                        title: '渡一教育 2019年 HTMLCSS零基础入学宝典',
-                        price: 1,
-                        cart: 1,
-                        id: 1596305473062
-                    },
-                    {
-                        poster: 'https://img.alicdn.com/bao/uploaded/i2/TB1bHwlaCWD3KVjSZSgVbgCxVXa_032434.jpg_80x80.jpg',
-                        title: '渡一教育 Web前端开发JavaScriptJs课',
-                        price: 1,
-                        cart: 1,
-                        id: 1595413512182
-                    },
-                    {
-                        poster: 'https://img.alicdn.com/bao/uploaded/i2/TB1MJd3g4z1gK0jSZSgnHevwpXa_014447.jpg_80x80.jpg',
-                        title: 'Web前端开发高级工程师全阶班【渡一教育】',
-                        price: 12798,
-                        cart: 1,
-                        id: 1596302161181
-                    },
-                    {
-                        poster: 'https://img.alicdn.com/bao/uploaded/i6/TB1xPeAbwaH3KVjSZFpjaLhKpXa_105848.jpg_80x80.jpg',
-                        title: '渡一教育 Java零基础入门到精通（集合，泛型等）',
-                        price: 1,
-                        cart: 1,
-                        id: 1596300025301,
-                    },
-                ]
+              msg:''
             },
-            computed: {
-                xuanzhongduiiang() {
-                    return this.courseList.filter(item => item.flag)
-                },
-                jisuanprice() {
-                    let total = 0;
-                    this.xuanzhongduiiang.forEach(item => {
-                        total += item.price * item.cart;
-                    })
-                    return total
-                },
-                quanxuan: {
-                    get() {
-                        return this.courseList.every(item => {
-                            return item.flag;
-                        })
-                    },
-                    set(val) {
-                        this.courseList.forEach(item => {
-                            item.flag = val;
-                        })
-                    }
-                }
-            },
-            methods: {
-                jianxiancart(item) {
-                    item.cart--;
-                },
-                zengjiacart(item) {
-                    item.cart++;
+            watch:{
+              msg:function msg (newval) {
+                    setTimeout(function(){
+                      alert(em.msg)  
+                    },3000)
+    
+                   console.log('a')
                 }
             }
-
-
-
         })
-        em.courseList.forEach(item => {
-            em.$set(item, 'flag', false)
-        });
+        
     </script>
 </body>
 
