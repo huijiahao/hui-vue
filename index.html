@@ -5,33 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./index.css" >
-    <script src="./jquery.js"></script>
+    <link rel="stylesheet" href="./index.css">
     <script src="/vue.js"></script>
+    <script src="./resource.js"></script>
 </head>
 
 <body>
     <div id="app">
-        <div class="logo">
-            <img src="https://www.baidu.com/img/bd_logo1.png?where=super" title="点击一下，了解更多">
+        <div class="username">
+            <input type="text" placeholder="用户名" v-model="name">
         </div>
-
-        <div class="search-box">
-            <span class="search-area">  
-                <input type="text" maxlength="100" v-model="inputvalue" @focus="changeflag" @blur="changeflag1">
-                <span class="icon icon-paizhao"></span>
-            </span>
-            <span class="search-btn">百度一下</span>
+        <div class="mail">
+            <input type="text" placeholder="邮箱" v-model="mail">
         </div>
-        <template >
-            <ul class="search-list" v-show = 'flag && inputvalue.length'>
-                <li v-for="item in msgarr">{{ item }}</li>
-                
-            </ul>
-        </template>
-
-
-
+        <div class="upload-btn" @click="fasongajax">上传</div>
+        <div class="test-btn">测试jsonp</div>
+        <div class="show-btn" @click="xianshimsg">显示人物信息</div>
+        <ul v-if="arr.length" ><li v-for="item in arr" class="person-list">
+            <span>{{ item.name }}</span><br>
+            <span>{{ item.mail }}</span>
+        </li>
+        </ul>
     </div>
 
 
@@ -41,37 +35,31 @@
     <script>
         var em = new Vue({
             el: "#app",
-            data:{
-                flag:false,
-                inputvalue:'',
-                msgarr:[],
+            data: {
+                name: '',
+                mail: '',
+                arr:[],
             },
-            methods:{
-                handle(res){
-                    this.msgarr = res.s;
-                },
-                changeflag(){
-                    this.flag = true;
-                },
-                changeflag1(){
-                    this.flag = false;
-                }
-            },
-            watch:{
-                inputvalue:function(){
-                    $.ajax({
-                        dataType:'jsonp',
-                        url:'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',
-                        data:{
-                            wd:this.inputvalue,
-                            cb:"em.handle"
-                        }
+            methods: {
+                fasongajax() {
+                    this.$http.post("https://developer.duyiedu.com/vue/setUserInfo", {
+                        name: this.name,
+                        mail: this.mail
+                    }).then(res=>{
+                        alert(res.body.msg);
+                    }).catch(err=>{
+                        alert(err.body.msg);
                     })
-                }
-            }
+                },
+                xianshimsg() {
+                    this.$http.get("https://developer.duyiedu.com/vue/getUserInfo").then(res => {
+                        console.log(res);
+                        this.arr = res.data.data;
+                    })
+                },
+            },
+           
         })
-        //利用watch监听搜索框数据的变化，拿取数据发送ajax请求，获取接口的数据放入vue的数据中，通过v-for渲染（注意点：回调函数是从全局开始查找，所以不能用this.handle）
-        //难点：如何在没有输入关键字的时候将ul表单隐藏，判断条件：数据数组为空，标记位为false；利用v-show特性，使用标记数据变量（flag），初始默认为false，当鼠标移入时，flag为true，当数据数组有值时显示；
     </script>
 </body>
 
