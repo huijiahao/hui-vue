@@ -10,7 +10,7 @@
 
 <body>
     <div id="app">
-       
+
     </div>
 
 
@@ -18,11 +18,36 @@
 
 
     <script>
+        //未解决问题 beforedestroy 和destroy 不能生效  
         var em = new Vue({
             el: "#app",
-            template:`<div id ="app-10"></div>`
+            data: {
+                msg: 'abc'
+            },
+            beforeCreate() {
+                setInterval(()=>{
+                    console.log(1)
+                },1000)
+                console.log(this);
+            },
+            created() {
+                console.log(this)
+            },
+            beforeMount() {
+                console.log(this)
+            },
+            mounted() {
+                console.log(this.msg)
+            },
+            beforeDestroy() {
+                clearInterval()
+                console.log("a");
+                console.log(em.msg);
+            },
+            destroyed() {
+                console.log(this)
+            }
         })
-               //有template将内部作为挂在的dom元素，优先级高于el
     </script>
 </body>
 
