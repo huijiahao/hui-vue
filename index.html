@@ -7,7 +7,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="./index.css">
     <script src="/vue.js"></script>
-    <script src="./resource.js"></script>
+    <script src="./axious.js"></script>
 </head>
 
 <body>
@@ -33,6 +33,13 @@
 
 
     <script>
+
+
+        axios.all([axios.post("https://developer.duyiedu.com/vue/setUserInfo",{name:'hui',mail:'hui123@qq.com'}),axios.get("https://developer.duyiedu.com/vue/getUserInfo")])
+        .then(axios.spread((ares,bres)=>{
+            console.log(ares,bres);
+        }))
+
         var em = new Vue({
             el: "#app",
             data: {
@@ -42,20 +49,21 @@
             },
             methods: {
                 fasongajax() {
-                    this.$http.post("https://developer.duyiedu.com/vue/setUserInfo", {
-                        name: this.name,
-                        mail: this.mail
-                    }).then(res=>{
-                        alert(res.body.msg);
-                    }).catch(err=>{
-                        alert(err.body.msg);
-                    })
+                    axios({
+                       method:'post',
+                       data:{name:this.name,mail:this.mail},
+                       url:"https://developer.duyiedu.com/vue/setUserInfo",
+                   }).then(res=>{
+                       alert(res.data.msg);
+                   })
                 },
                 xianshimsg() {
-                    this.$http.get("https://developer.duyiedu.com/vue/getUserInfo").then(res => {
-                        console.log(res);
-                        this.arr = res.data.data;
-                    })
+                   axios({
+                       method:'get',
+                       url:"https://developer.duyiedu.com/vue/getUserInfo",
+                   }).then(res=>{
+                       this.arr = res.data.data;
+                   })
                 },
             },
            
