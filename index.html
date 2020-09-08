@@ -5,28 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./index.css">
     <script src="/vue.js"></script>
-    <script src="./axious.js"></script>
 </head>
 
 <body>
     <div id="app">
-        <div class="username">
-            <input type="text" placeholder="用户名" v-model="name">
-        </div>
-        <div class="mail">
-            <input type="text" placeholder="邮箱" v-model="mail">
-        </div>
-        <div class="upload-btn" @click="fasongajax">上传</div>
-        <div class="test-btn">测试jsonp</div>
-        <div class="show-btn" @click="xianshimsg">显示人物信息</div>
-        <button @click="hangdecancel">取消</button>
-        <ul v-if="arr.length" ><li v-for="item in arr" class="person-list">
-            <span>{{ item.name }}</span><br>
-            <span>{{ item.mail }}</span>
-        </li>
-        </ul>
+       
     </div>
 
 
@@ -36,47 +20,9 @@
     <script>
         var em = new Vue({
             el: "#app",
-            data: {
-                name: '',
-                mail: '',
-                arr:[],
-            },
-            methods: {
-                hangdecancel(){
-                    source.cancel();
-                },
-                fasongajax() {
-                    axios({
-                       method:'post',
-                       data:{name:this.name,mail:this.mail},
-                       url:"https://developer.duyiedu.com/vue/setUserInfo",
-                   }).then(res=>{
-                    //    console.log(res);
-                       alert(res.data.msg);
-                   })
-                },
-                xianshimsg() {
-                   axios({
-                       method:'get',
-                       cancelToken:source.token,
-                       url:"https://developer.duyiedu.com/vue/getUserInfo",
-                   }).then(res=>{
-                       this.arr = res.data.data;
-                   })
-                },
-            },
-           
+            template:`<div id ="app-10"></div>`
         })
-                const source = axios.CancelToken.source();
-    //    const ab =  axios.interceptors.response.use(response=>{
-    //         return response.data.data;
-    //     })
-        // axios.interceptors.response.eject(ab);
-        // axios.interceptors.request.use(config=>{
-        //     config.method="get";
-        //     config.url="https://developer.duyiedu.com/vue/getUserInfo";
-        //     return config;
-        // })
+               //有template将内部作为挂在的dom元素，优先级高于el
     </script>
 </body>
 
