@@ -21,6 +21,7 @@
         <div class="upload-btn" @click="fasongajax">上传</div>
         <div class="test-btn">测试jsonp</div>
         <div class="show-btn" @click="xianshimsg">显示人物信息</div>
+        <button @click="hangdecancel">取消</button>
         <ul v-if="arr.length" ><li v-for="item in arr" class="person-list">
             <span>{{ item.name }}</span><br>
             <span>{{ item.mail }}</span>
@@ -33,13 +34,6 @@
 
 
     <script>
-
-
-        axios.all([axios.post("https://developer.duyiedu.com/vue/setUserInfo",{name:'hui',mail:'hui123@qq.com'}),axios.get("https://developer.duyiedu.com/vue/getUserInfo")])
-        .then(axios.spread((ares,bres)=>{
-            console.log(ares,bres);
-        }))
-
         var em = new Vue({
             el: "#app",
             data: {
@@ -48,18 +42,23 @@
                 arr:[],
             },
             methods: {
+                hangdecancel(){
+                    source.cancel();
+                },
                 fasongajax() {
                     axios({
                        method:'post',
                        data:{name:this.name,mail:this.mail},
                        url:"https://developer.duyiedu.com/vue/setUserInfo",
                    }).then(res=>{
+                    //    console.log(res);
                        alert(res.data.msg);
                    })
                 },
                 xianshimsg() {
                    axios({
                        method:'get',
+                       cancelToken:source.token,
                        url:"https://developer.duyiedu.com/vue/getUserInfo",
                    }).then(res=>{
                        this.arr = res.data.data;
@@ -68,6 +67,16 @@
             },
            
         })
+                const source = axios.CancelToken.source();
+    //    const ab =  axios.interceptors.response.use(response=>{
+    //         return response.data.data;
+    //     })
+        // axios.interceptors.response.eject(ab);
+        // axios.interceptors.request.use(config=>{
+        //     config.method="get";
+        //     config.url="https://developer.duyiedu.com/vue/getUserInfo";
+        //     return config;
+        // })
     </script>
 </body>
 
